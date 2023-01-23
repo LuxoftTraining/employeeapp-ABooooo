@@ -138,14 +138,17 @@ function removeEmployee(id) {
 
 function removeEmployeeUI(id) { 
     removeEmployee(id); 
-    showEmployees(DATA.employees); 
+    showEmployees(DATA.employees);
+
+    document.getElementById('managerSearch').innerHTML = "";
+    fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
 }
 
 function setEmployeeManager(id, managerId) {
     var myArray = DATA.employees;
     var index = myArray.findIndex((obj => obj.id == id));
     if (index > -1) {
-        DATA.employees[index].managerRef = managerId; 
+        DATA.employees[index].managerRef = managerId;
     }    
 };
 

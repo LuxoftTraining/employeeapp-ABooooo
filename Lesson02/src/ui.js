@@ -163,7 +163,28 @@ function openTab(evt, id) {
     // Show the current tab and add the class "active" 
     // to the button that opens this tab 
     document.getElementById(id).style.display = "block"; 
-    evt.currentTarget.className += " active"; 
+    evt.currentTarget.className += " active";
+
+    if (id === "editPane") {
+        document.getElementById('managerEdit').innerHTML = "";
+        fillSelect(document.getElementById("managerEdit"), getEmployeesOptions());
+
+        document.getElementById('employeesEditPlaceholder').innerHTML = "";
+        showEmployeesEdit(DATA.employees);
+    }
+
+    if (id === "searchPane") {        
+        document.getElementById('managerSearch').innerHTML = "";
+        fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
+
+        document.getElementById('employeesPlaceholder').innerHTML = "";
+        showEmployees(DATA.employees);
+    }
+
+    if (id === "addPane") {        
+        document.getElementById('managerSelect').innerHTML = "";
+        fillSelect(document.getElementById("managerSelect"), getEmployeesOptions());
+    }
 };
 
 function assignSendOnEnter(paneId, buttonId) { 
@@ -179,7 +200,6 @@ function assignSendOnEnter(paneId, buttonId) {
 };
 
 function editEmployeeUI(id) {
-    console.log(id);
     for (let e of DATA.employees) { 
         if (e.id === id) {
             document.getElementById('idEdit').value = e.id;
