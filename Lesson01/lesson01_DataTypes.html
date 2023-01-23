@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Lesson 01</title>
+        <meta name="description" content="JS Course">
+    </head>
+    <body>
+        <script>
+            /* Part 1. Converting numbers to strings. */
+            
+            console.log("Part 1");
+            var n = 100; 
+            var s = n + " bottles of beer on the wall."; 
+            
+            var nn = n + "";
+            console.log(nn);
+            console.log(String(n));
+            console.log(n.toString());
+            console.log(s.toString());
+
+            var m = 17; 
+            var binary_string = m.toString(2); 
+            console.log(binary_string);
+
+            /* Part 2. Converting string to numbers */
+
+            console.log("Part 2");
+            var product = "21" * "2";
+            console.log(typeof(product));
+            
+            var number = "juhu" - 0;
+            console.log(number);
+            console.log(Number(number));
+            console.log(parseInt("3 blind mice"));
+            console.log(parseFloat("3.14 meters"));
+            console.log(parseInt("12.34"));
+            console.log(parseInt("0xFF"));
+            console.log(parseInt("11", 2));
+            console.log(parseInt("ff", 16));
+            console.log(parseInt("zz", 36));
+            console.log(parseInt("077", 8));
+            console.log(parseInt("077", 10));
+            console.log(parseInt("eleven"));
+            console.log(parseFloat("$72.47"));
+            
+
+            /* Part 3. Boolean conversions. */
+
+            console.log("Part 3");
+
+            x1 = undefined;
+            x2 = null;
+            x3 = "aaa";
+            x4 = 7;
+            x5 = 0;
+            x6 = Infinity;
+            x7 = {};
+            
+            console.log(Boolean(x1) + "-" + !!x1);
+            console.log(Boolean(x2) + "-" + !!x2);
+            console.log(Boolean(x3) + "-" + !!x3);
+            console.log(Boolean(x4) + "-" + !!x4);
+            console.log(Boolean(x5) + "-" + !!x5);
+            console.log(Boolean(x6) + "-" + !!x6);
+            console.log(Boolean(x7) + "-" + !!x7);
+
+            /* Part 4. Passing values of primitive types */
+
+            console.log("Part 4");
+            var n = 1;
+            var m = n;
+            
+            function add_to_total(total, x) { 
+                total = total + x;
+                console.log(total); 
+            }
+            add_to_total(n, m);
+
+            /* Part 5. Working with variables of reference types. */
+
+            console.log("Part 5");
+
+            var xmas = new Date(2007, 11, 25);
+            var solstice = xmas;    
+            solstice.setDate(21); 
+            console.log(xmas.getDate());   
+            xmas == solstice;
+            console.log(xmas);
+            var xmas = new Date(2007, 11, 25); 
+            var solstice_plus_4 = new Date(2007, 11, 25); 
+            xmas != solstice_plus_4;
+            console.log(xmas);
+
+            
+
+        </script>
+    </body>
+</html>
+
+alias: string,
+aliasDE: string,
+aliasShort: string,
+businessUnitAlias: string,
+businessUnitId: string,
+productClusterAlias: string,
+productClusterAlias: string,
+productClusterId: number,
+productGroupName: string,
+productGroupAlias: string,
+productGroupId: number,
+productFamilyAlias: string,
+productFamilyName: string,
+productFamilyId: number,
+productIsThirdParty: boolean,
+plantManagementId: number,
+plantManagement: string,
+saleforceProductNr: String
+saleforceProductNrId: number ???
+designationStandardisation: string,
+designationStandardisationId: number, ???
+spkID: ???
+jiraSync: ???
+codySync: ???
+saveAsDraft: boolean 
+variation: {
+    variationAlias: string,
+    variationAliasDE: string,
+    variationAliasShort: string,
+    subProductName: string,
+    subProductId: number,
+},
+version: {
+    versionAlias: string
+    versionNumber: string/number ???
+    subversionNumber: string/number ???
+    productStatus: string,
+    productStatusId: string,
+    productionSupplierAlias: string
+    productionSupplierId: string,
+    manager: string,
+    managerId: number,
+    engineer: string,
+    engineerId: number,
+    marketing: string,
+    marketingId: number,
+    subProductName: string,
+    subProductId: number,
+    phases: [
+        {
+           productPhaseName: string,
+           productPhaseId: number,
+           validFrom: date,
+           validTo: date         
+        }
+    ]
+}

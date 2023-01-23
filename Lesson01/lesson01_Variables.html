@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Lesson 01</title>
+        <meta name="description" content="JS Course">
+    </head>
+    <body>
+        <script>
+            /* Part 1. Local and global visibility scopes */
+            
+            scope1 = "global";             
+            function checkscopeOne( ) { 
+                scope1 = "local";          
+                document.write(scope1);     
+                myscope = "local";        
+                document.write(myscope);   
+            }
+            checkscopeOne();
+            document.write(scope1);
+            document.write(myscope + "<br/><br/><br/>");
+            
+            var scope = "global scope";
+            function checkscope( ) { 
+                var scope = "local scope";      
+                function nested( ) { 
+                    var scope = "nested scope";   
+                    document.write(scope);        
+                }
+                nested( ); 
+            } 
+            checkscope( );
+
+        </script>
+    </body>
+</html>
