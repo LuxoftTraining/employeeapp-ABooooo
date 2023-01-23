@@ -168,14 +168,22 @@ function saveEmployee() {
     var id = document.getElementById('idEdit').value;
     var name = document.getElementById('nameEdit').value;
     var surname = document.getElementById('surnameEdit').value;
+    const managerId = document.getElementById("managerEdit").value;
+
+    console.log("managerId", managerId);
     
     var myArray = DATA.employees;
     var index = myArray.findIndex((obj => obj.id == id));
     if (index > -1) {
         DATA.employees[index].name = name;
-        DATA.employees[index].surname = surname; 
-    }    
+        DATA.employees[index].surname = surname;
+        DATA.employees[index].managerRef = managerId;
+    }
 
+    document.getElementById('idEdit').value = "";
+    document.getElementById('nameEdit').value = "";
+    document.getElementById('surnameEdit').value = "";
+    
     document.getElementById('employeesEditPlaceholder').innerHTML = "";
     showEmployeesEdit(DATA.employees);
 }

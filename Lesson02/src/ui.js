@@ -124,6 +124,7 @@ function fillSelect(select, values, selectedValue) {
 
 function getEmployeesOptions() { 
     let options = []; 
+    options.push({text:' ', value: ''});
     for (let e of DATA.employees) { 
         options.push({text:e.name + ' ' + e.surname, value:e.id}); 
     } 
