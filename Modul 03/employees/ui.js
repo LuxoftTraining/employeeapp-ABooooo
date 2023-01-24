@@ -143,11 +143,19 @@ function getEmployeesOptions() {
 };
 
 export function searchEmployeeUI() { 
-    const name = document.getElementById("nameSearch").value; 
-    const surname = document.getElementById("surnameSearch").value; 
-    const managerRef = document.getElementById("managerSearch").value; 
+    let name = document.getElementById("nameSearch").value; 
+    let surname = document.getElementById("surnameSearch").value; 
+    const managerRef = document.getElementById("managerSearch").value;
     
-    const employees  = searchEmployees(name, surname, managerRef); 
+    if (managerRef != '') {
+        var e = document.getElementById("managerSearch");
+        var text = e.options[e.selectedIndex].text;
+        var manager = text.split(' ');
+        name = manager[0];
+        surname = manager[1];
+    }
+    
+    const employees  = searchEmployees(name, surname);
     showEmployees(employees); 
 };
 

@@ -193,14 +193,6 @@ function getEmployeeJSON(id) {
     return JSON.stringify(employee); 
 };
 
-function removeEmployeeUI(id) { 
-    removeEmployee(id); 
-    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_0__["default"].employees);
-
-    document.getElementById('managerSearch').innerHTML = "";
-    fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
-}
-
 function setEmployeeManager(id, managerId) {
     var myArray = _employees_json__WEBPACK_IMPORTED_MODULE_0__["default"].employees;
     var index = myArray.findIndex((obj => obj.id == id));
@@ -232,7 +224,7 @@ function saveEmployee() {
         _employees_json__WEBPACK_IMPORTED_MODULE_0__["default"].employees[index].name = name;
         _employees_json__WEBPACK_IMPORTED_MODULE_0__["default"].employees[index].surname = surname; 
     }
-}
+};
 
 
 
@@ -255,6 +247,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addEmployeeUI": () => (/* binding */ addEmployeeUI),
 /* harmony export */   "editEmployeeUI": () => (/* binding */ editEmployeeUI),
 /* harmony export */   "openTab": () => (/* binding */ openTab),
+/* harmony export */   "removeEmployeeUI": () => (/* binding */ removeEmployeeUI),
 /* harmony export */   "runUI": () => (/* binding */ runUI),
 /* harmony export */   "searchEmployeeUI": () => (/* binding */ searchEmployeeUI)
 /* harmony export */ });
@@ -281,6 +274,14 @@ function runUI() {
 function clearEmployeesPlaceholder() { 
     document.getElementById('employeesPlaceholder').innerHTML = ''; 
 };
+
+function removeEmployeeUI(id) {
+    (0,_service__WEBPACK_IMPORTED_MODULE_0__.removeEmployee)(id); 
+    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+
+    document.getElementById('managerSearch').innerHTML = "";
+    fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
+}
 
 function showEmployees(employees) { 
     clearEmployeesPlaceholder(); 
@@ -397,11 +398,19 @@ function getEmployeesOptions() {
 };
 
 function searchEmployeeUI() { 
-    const name = document.getElementById("nameSearch").value; 
-    const surname = document.getElementById("surnameSearch").value; 
-    const managerRef = document.getElementById("managerSearch").value; 
+    let name = document.getElementById("nameSearch").value; 
+    let surname = document.getElementById("surnameSearch").value; 
+    const managerRef = document.getElementById("managerSearch").value;
     
-    const employees  = (0,_service__WEBPACK_IMPORTED_MODULE_0__.searchEmployees)(name, surname, managerRef); 
+    if (managerRef != '') {
+        var e = document.getElementById("managerSearch");
+        var text = e.options[e.selectedIndex].text;
+        var manager = text.split(' ');
+        name = manager[0];
+        surname = manager[1];
+    }
+    
+    const employees  = (0,_service__WEBPACK_IMPORTED_MODULE_0__.searchEmployees)(name, surname);
     showEmployees(employees); 
 };
 
@@ -1077,7 +1086,8 @@ __webpack_require__.r(__webpack_exports__);
 window.addEmployeeUI = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.addEmployeeUI; 
 window.openTab = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.openTab; 
 window.searchEmployeeUI = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.searchEmployeeUI; 
-window.editEmployeeUI = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.editEmployeeUI; 
+window.editEmployeeUI = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.editEmployeeUI;
+window.removeEmployeeUI = _employees_ui__WEBPACK_IMPORTED_MODULE_0__.removeEmployeeUI;
 
 (0,_employees_ui__WEBPACK_IMPORTED_MODULE_0__.runUI)();
 })();
