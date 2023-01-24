@@ -20,6 +20,14 @@ function clearEmployeesPlaceholder() {
     document.getElementById('employeesPlaceholder').innerHTML = ''; 
 };
 
+export function removeEmployeeUI(id) {
+    removeEmployee(id); 
+    showEmployees(DATA.employees);
+
+    document.getElementById('managerSearch').innerHTML = "";
+    fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
+}
+
 function showEmployees(employees) { 
     clearEmployeesPlaceholder(); 
     const ul = document.createElement("ul"); 

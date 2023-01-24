@@ -131,14 +131,6 @@ function getEmployeeJSON(id) {
     return JSON.stringify(employee); 
 };
 
-function removeEmployeeUI(id) { 
-    removeEmployee(id); 
-    showEmployees(DATA.employees);
-
-    document.getElementById('managerSearch').innerHTML = "";
-    fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
-}
-
 export function setEmployeeManager(id, managerId) {
     var myArray = DATA.employees;
     var index = myArray.findIndex((obj => obj.id == id));
@@ -170,7 +162,7 @@ export function saveEmployee() {
         DATA.employees[index].name = name;
         DATA.employees[index].surname = surname; 
     }
-}
+};
 
 
 
