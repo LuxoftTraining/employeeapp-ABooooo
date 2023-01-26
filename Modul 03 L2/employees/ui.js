@@ -1,4 +1,5 @@
 import { getEmployees, removeEmployee, addEmployee, findById, searchEmployees, setEmployeeManager, saveEmployee} from './service';
+import {Employee, jsonToEmployees} from "./employee"
 import DATA from './employees-json';
 
 export function runUI() { 
@@ -32,7 +33,7 @@ function showEmployees(employees) {
     clearEmployeesPlaceholder(); 
     const ul = document.createElement("ul"); 
     
-    for (let employee of employees) { 
+    /*for (let employee of employees) { 
         const li = document.createElement("li"); 
         ul.appendChild(li); 
 
@@ -55,14 +56,39 @@ function showEmployees(employees) {
         removeButton.innerHTML = "Remove"; 
         removeButton.addEventListener('click', () => removeEmployeeUI(employee.id)); 
         li.appendChild(removeButton);
-    } 
+    }*/
+
+    for (let employee of jsonToEmployees(employees)) { 
+        const li = document.createElement("li"); 
+        ul.appendChild(li); 
+
+        let managerHTML = ""; 
+        if (employee.managerRef) { 
+            let manager = findById(employee.managerRef); 
+            managerHTML = " <b>Manager:</b> " + manager.name + " " + manager.surname;
+
+            const managerSpan = document.createElement("span"); 
+            const managerSelect = document.createElement("select"); 
+            fillSelect(managerSelect, getEmployeesOptions(), employee.managerRef); 
+            managerSelect.addEventListener('change', () => employee.managerRef = managerSelect.value); 
+            managerSpan.innerHTML = " <b>Manager:</b> "; 
+            li.appendChild(managerSpan); 
+            li.appendChild(managerSelect); 
+        } 
+        li.innerHTML = employee;
+
+        const removeButton = document.createElement("button"); 
+        removeButton.innerHTML = "Remove"; 
+        removeButton.addEventListener('click', () => removeEmployeeUI(employee.id)); 
+        li.appendChild(removeButton);
+    }
     document.getElementById('employeesPlaceholder').appendChild(ul);
 };
 
 function showEmployeesEdit(employees) { 
     const ul = document.createElement("ul"); 
     
-    for (let employee of employees) { 
+    /*for (let employee of employees) { 
         const li = document.createElement("li"); 
         ul.appendChild(li); 
 
@@ -85,7 +111,32 @@ function showEmployeesEdit(employees) {
         editButton.innerHTML = "Edit"; 
         editButton.addEventListener('click', () => editEmployeeBtn(employee.id)); 
         li.appendChild(editButton);
-    } 
+    }*/
+    
+    for (let employee of jsonToEmployees(employees)) { 
+        const li = document.createElement("li"); 
+        ul.appendChild(li); 
+
+        let managerHTML = ""; 
+        if (employee.managerRef) { 
+            let manager = findById(employee.managerRef); 
+            managerHTML = " <b>Manager:</b> " + manager.name + " " + manager.surname;
+
+            const managerSpan = document.createElement("span"); 
+            const managerSelect = document.createElement("select"); 
+            fillSelect(managerSelect, getEmployeesOptions(), employee.managerRef); 
+            managerSelect.addEventListener('change', () => employee.managerRef = managerSelect.value); 
+            managerSpan.innerHTML = " <b>Manager:</b> "; 
+            li.appendChild(managerSpan); 
+            li.appendChild(managerSelect); 
+        } 
+        li.innerHTML = employee;
+
+        const editButton = document.createElement("button"); 
+        editButton.innerHTML = "Edit"; 
+        editButton.addEventListener('click', () => editEmployeeBtn(employee.id)); 
+        li.appendChild(editButton);
+    }
     document.getElementById('employeesEditPlaceholder').appendChild(ul);
 };
 

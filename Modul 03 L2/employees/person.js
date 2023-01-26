@@ -2,7 +2,6 @@ export class Person {
     constructor(name, surname) { 
         this.name = name; 
         this.surname = surname;
- 
     }
     get fullName() { 
         return this.name + " " + this.surname; 
@@ -15,9 +14,20 @@ export class Person {
        
        Math.abs(ageDate.getUTCFullYear() - 1970); 
     }
-    set addPhone(phone) { 
-        this.phones = [];  
-        this.phones.push(phone);
+    set addPhone(phone) {
+        /*
+        check if el has property
+        manuall check can be done in the console for example:
+        e = new Employee("Jane","Jamison"); 
+        e.addPhone="256";
+        e.hasOwnProperty('phones') or just e to display the whole object
+        */
+        if (this.hasOwnProperty('phones')) {
+            this.phones.push(phone);
+        } else {
+            this.phones = [];  
+            this.phones.push(phone);
+        }
     }
     get addPhone() {
         return this.phones;
@@ -39,5 +49,8 @@ export class Person {
     toString() { 
         const phones = this.phones ? `List of phones: ${this.phones}` : ''; 
         return `${this.fullName} \ ${this.dateOfBirth} ${this.age} ${phones}`; 
+    }
+    static fromJSON(obj) { 
+        return Object.assign(new Person(), obj)
     } 
 } 

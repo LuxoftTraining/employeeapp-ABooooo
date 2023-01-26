@@ -10,9 +10,12 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Employee": () => (/* binding */ Employee)
+/* harmony export */   "Employee": () => (/* binding */ Employee),
+/* harmony export */   "jsonToEmployees": () => (/* binding */ jsonToEmployees)
 /* harmony export */ });
 /* harmony import */ var _person__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./person */ "./employees/person.js");
+/* harmony import */ var _employees_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./employees-json */ "./employees/employees-json.js");
+
 
 
 class Employee extends _person__WEBPACK_IMPORTED_MODULE_0__.Person { 
@@ -22,7 +25,18 @@ class Employee extends _person__WEBPACK_IMPORTED_MODULE_0__.Person {
     }
 }
 
+function jsonToEmployees(employeesJSON) { 
+    let employees = []; 
+    for (let e of employeesJSON) { 
+     employees.push(Employee.fromJSON(e)); 
+    } 
+    return employees; 
+} 
+
 window.Employee = Employee;
+window.allEmployees = function() { 
+    return jsonToEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees); 
+} 
 
 /***/ }),
 
@@ -42,25 +56,29 @@ __webpack_require__.r(__webpack_exports__);
     id: 1, 
     name: "Peter", 
     surname: "Peterson", 
-    department: "IT" 
+    department: "IT",
+    dateOfBirth: "2000-01-01"
    },
    { 
     id: 2, 
     name: "Seppi", 
     surname: "Peterson", 
-    department: "IT" 
+    department: "IT",
+    dateOfBirth: "1990-01-01" 
    },
    { 
     id: 3, 
     name: "Josef", 
     surname: "Peterson", 
-    department: "IT" 
+    department: "IT",
+    dateOfBirth: "1980-01-01"
    },
    { 
     id: 4, 
     name: "Franz", 
     surname: "Peterson", 
-    department: "IT" 
+    department: "IT",
+    dateOfBirth: "1970-01-01"  
    }
  ] 
 }); 
@@ -81,7 +99,6 @@ class Person {
     constructor(name, surname) { 
         this.name = name; 
         this.surname = surname;
- 
     }
     get fullName() { 
         return this.name + " " + this.surname; 
@@ -94,9 +111,20 @@ class Person {
        
        Math.abs(ageDate.getUTCFullYear() - 1970); 
     }
-    set addPhone(phone) { 
-        this.phones = [];  
-        this.phones.push(phone);
+    set addPhone(phone) {
+        /*
+        check if el has property
+        manuall check can be done in the console for example:
+        e = new Employee("Jane","Jamison"); 
+        e.addPhone="256";
+        e.hasOwnProperty('phones') or just e to display the whole object
+        */
+        if (this.hasOwnProperty('phones')) {
+            this.phones.push(phone);
+        } else {
+            this.phones = [];  
+            this.phones.push(phone);
+        }
     }
     get addPhone() {
         return this.phones;
@@ -118,6 +146,9 @@ class Person {
     toString() { 
         const phones = this.phones ? `List of phones: ${this.phones}` : ''; 
         return `${this.fullName} \ ${this.dateOfBirth} ${this.age} ${phones}`; 
+    }
+    static fromJSON(obj) { 
+        return Object.assign(new Person(), obj)
     } 
 } 
 
@@ -332,13 +363,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "searchEmployeeUI": () => (/* binding */ searchEmployeeUI)
 /* harmony export */ });
 /* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./service */ "./employees/service.js");
-/* harmony import */ var _employees_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./employees-json */ "./employees/employees-json.js");
+/* harmony import */ var _employee__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./employee */ "./employees/employee.js");
+/* harmony import */ var _employees_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./employees-json */ "./employees/employees-json.js");
+
 
 
 
 function runUI() { 
-    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
-    showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
+    showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
 
     fillSelect(document.getElementById("managerSelect"), getEmployeesOptions());
     fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
@@ -357,7 +390,7 @@ function clearEmployeesPlaceholder() {
 
 function removeEmployeeUI(id) {
     (0,_service__WEBPACK_IMPORTED_MODULE_0__.removeEmployee)(id); 
-    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
 
     document.getElementById('managerSearch').innerHTML = "";
     fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
@@ -367,13 +400,13 @@ function showEmployees(employees) {
     clearEmployeesPlaceholder(); 
     const ul = document.createElement("ul"); 
     
-    for (let employee of employees) { 
+    /*for (let employee of employees) { 
         const li = document.createElement("li"); 
         ul.appendChild(li); 
 
         let managerHTML = ""; 
         if (employee.managerRef) { 
-            let manager = (0,_service__WEBPACK_IMPORTED_MODULE_0__.findById)(employee.managerRef); 
+            let manager = findById(employee.managerRef); 
             managerHTML = " <b>Manager:</b> " + manager.name + " " + manager.surname;
 
             const managerSpan = document.createElement("span"); 
@@ -390,14 +423,9 @@ function showEmployees(employees) {
         removeButton.innerHTML = "Remove"; 
         removeButton.addEventListener('click', () => removeEmployeeUI(employee.id)); 
         li.appendChild(removeButton);
-    } 
-    document.getElementById('employeesPlaceholder').appendChild(ul);
-};
+    }*/
 
-function showEmployeesEdit(employees) { 
-    const ul = document.createElement("ul"); 
-    
-    for (let employee of employees) { 
+    for (let employee of (0,_employee__WEBPACK_IMPORTED_MODULE_1__.jsonToEmployees)(employees)) { 
         const li = document.createElement("li"); 
         ul.appendChild(li); 
 
@@ -414,13 +442,68 @@ function showEmployeesEdit(employees) {
             li.appendChild(managerSpan); 
             li.appendChild(managerSelect); 
         } 
+        li.innerHTML = employee;
+
+        const removeButton = document.createElement("button"); 
+        removeButton.innerHTML = "Remove"; 
+        removeButton.addEventListener('click', () => removeEmployeeUI(employee.id)); 
+        li.appendChild(removeButton);
+    }
+    document.getElementById('employeesPlaceholder').appendChild(ul);
+};
+
+function showEmployeesEdit(employees) { 
+    const ul = document.createElement("ul"); 
+    
+    /*for (let employee of employees) { 
+        const li = document.createElement("li"); 
+        ul.appendChild(li); 
+
+        let managerHTML = ""; 
+        if (employee.managerRef) { 
+            let manager = findById(employee.managerRef); 
+            managerHTML = " <b>Manager:</b> " + manager.name + " " + manager.surname;
+
+            const managerSpan = document.createElement("span"); 
+            const managerSelect = document.createElement("select"); 
+            fillSelect(managerSelect, getEmployeesOptions(), employee.managerRef); 
+            managerSelect.addEventListener('change', () => employee.managerRef = managerSelect.value); 
+            managerSpan.innerHTML = " <b>Manager:</b> "; 
+            li.appendChild(managerSpan); 
+            li.appendChild(managerSelect); 
+        } 
         li.innerHTML = employee.name + " " + employee.surname + managerHTML;
 
         const editButton = document.createElement("button"); 
         editButton.innerHTML = "Edit"; 
         editButton.addEventListener('click', () => editEmployeeBtn(employee.id)); 
         li.appendChild(editButton);
-    } 
+    }*/
+    
+    for (let employee of (0,_employee__WEBPACK_IMPORTED_MODULE_1__.jsonToEmployees)(employees)) { 
+        const li = document.createElement("li"); 
+        ul.appendChild(li); 
+
+        let managerHTML = ""; 
+        if (employee.managerRef) { 
+            let manager = (0,_service__WEBPACK_IMPORTED_MODULE_0__.findById)(employee.managerRef); 
+            managerHTML = " <b>Manager:</b> " + manager.name + " " + manager.surname;
+
+            const managerSpan = document.createElement("span"); 
+            const managerSelect = document.createElement("select"); 
+            fillSelect(managerSelect, getEmployeesOptions(), employee.managerRef); 
+            managerSelect.addEventListener('change', () => employee.managerRef = managerSelect.value); 
+            managerSpan.innerHTML = " <b>Manager:</b> "; 
+            li.appendChild(managerSpan); 
+            li.appendChild(managerSelect); 
+        } 
+        li.innerHTML = employee;
+
+        const editButton = document.createElement("button"); 
+        editButton.innerHTML = "Edit"; 
+        editButton.addEventListener('click', () => editEmployeeBtn(employee.id)); 
+        li.appendChild(editButton);
+    }
     document.getElementById('employeesEditPlaceholder').appendChild(ul);
 };
 
@@ -448,7 +531,7 @@ function addEmployeeUI() {
 	if (errorHTML.length != 0) return; 
 
     (0,_service__WEBPACK_IMPORTED_MODULE_0__.addEmployee)(name, surname); 
-    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+    showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
     
     const id = (0,_service__WEBPACK_IMPORTED_MODULE_0__.addEmployee)(name, surname); 
     const managerId = document.getElementById("managerSelect").value;
@@ -471,7 +554,7 @@ function fillSelect(select, values, selectedValue) {
 function getEmployeesOptions() { 
     let options = [];
     options.push({text:' ', value: ''}); 
-    for (let e of _employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees) { 
+    for (let e of _employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees) { 
         options.push({text:e.name + ' ' + e.surname, value:e.id}); 
     } 
     return options; 
@@ -525,7 +608,7 @@ function openTab(evt, id) {
         fillSelect(document.getElementById("managerEdit"), getEmployeesOptions());
 
         document.getElementById('employeesEditPlaceholder').innerHTML = "";
-        showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+        showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
     }
 
     if (id === "searchPane") {        
@@ -533,7 +616,7 @@ function openTab(evt, id) {
         fillSelect(document.getElementById("managerSearch"), getEmployeesOptions());
 
         document.getElementById('employeesPlaceholder').innerHTML = "";
-        showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+        showEmployees(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
     }
 
     if (id === "addPane") {        
@@ -555,7 +638,7 @@ function assignSendOnEnter(paneId, buttonId) {
 };
 
 function editEmployeeBtn(id) {
-    for (let e of _employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees) { 
+    for (let e of _employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees) { 
         if (e.id === id) {
             document.getElementById('idEdit').value = e.id;
             document.getElementById('nameEdit').value = e.name;
@@ -568,7 +651,7 @@ function editEmployeeUI() {
     (0,_service__WEBPACK_IMPORTED_MODULE_0__.saveEmployee)();
 
     document.getElementById('employeesEditPlaceholder').innerHTML = "";
-    showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_1__["default"].employees);
+    showEmployeesEdit(_employees_json__WEBPACK_IMPORTED_MODULE_2__["default"].employees);
 }
 
 /***/ }),
